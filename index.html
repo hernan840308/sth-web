@@ -1,0 +1,1501 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Soporte Tecnológico Hernández</title>
+  <meta name="description" content="Videovigilancia, redes de datos y equipos informáticos. STH Cam, nuestra app para ver tus cámaras desde Android TV, Google TV, TV box o móvil.">
+  <meta name="theme-color" content="#071426">
+  <meta property="og:title" content="Soporte Tecnológico Hernández">
+  <meta property="og:description" content="Videovigilancia, redes de datos y equipos informáticos. STH Cam para Android TV, Google TV, TV box y móvil.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    // Aplica el tema guardado antes del primer pintado para evitar destellos.
+    try {
+      var saved = localStorage.getItem("sth-theme");
+      if (saved === "dark" || saved === "light") document.documentElement.dataset.theme = saved;
+    } catch (e) { /* almacenamiento no disponible */ }
+  </script>
+  <style>
+    :root {
+      --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+      --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      --bg: #f3f7fc;
+      --bg-glow: rgba(11, 99, 206, 0.10);
+      --surface: #ffffff;
+      --surface-2: #f7fafd;
+      --ink: #071426;
+      --ink-soft: #31465e;
+      --muted: #5b6f86;
+      --line: #d6e1ee;
+      --grid: rgba(11, 99, 206, 0.075);
+      --brand: #0b63ce;
+      --brand-strong: #0a4da3;
+      --accent: #0e9fbe;
+      --focus: #0b63ce;
+      --header-bg: rgba(243, 247, 252, 0.86);
+      --shadow: 0 24px 70px rgba(9, 35, 70, 0.14);
+      --btn-bg: #0b63ce;
+      --btn-fg: #ffffff;
+
+      --console-bg: #06101e;
+      --console-surface: #0b1a2d;
+      --console-line: rgba(154, 190, 230, 0.18);
+      --console-ink: #eaf3ff;
+      --console-muted: #96abc4;
+
+      --band-bg: #071426;
+      --band-fg: #eef6ff;
+      --band-muted: #a8bad0;
+      --band-card: rgba(255, 255, 255, 0.055);
+      --band-line: rgba(168, 196, 228, 0.18);
+      --band-brand: #6fb6ff;
+      --band-accent: #3bd5e6;
+
+      --radius: 18px;
+      color-scheme: light;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #060b13;
+        --bg-glow: rgba(63, 140, 255, 0.14);
+        --surface: #0c1726;
+        --surface-2: #0a1421;
+        --ink: #e9f2fc;
+        --ink-soft: #c5d5e7;
+        --muted: #9aadc4;
+        --line: #1b2c42;
+        --grid: rgba(102, 172, 255, 0.07);
+        --brand: #66acff;
+        --brand-strong: #8fc4ff;
+        --accent: #35d0e0;
+        --focus: #66acff;
+        --header-bg: rgba(6, 11, 19, 0.84);
+        --shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+        --btn-bg: #66acff;
+        --btn-fg: #04101f;
+        color-scheme: dark;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #060b13;
+      --bg-glow: rgba(63, 140, 255, 0.14);
+      --surface: #0c1726;
+      --surface-2: #0a1421;
+      --ink: #e9f2fc;
+      --ink-soft: #c5d5e7;
+      --muted: #9aadc4;
+      --line: #1b2c42;
+      --grid: rgba(102, 172, 255, 0.07);
+      --brand: #66acff;
+      --brand-strong: #8fc4ff;
+      --accent: #35d0e0;
+      --focus: #66acff;
+      --header-bg: rgba(6, 11, 19, 0.84);
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+      --btn-bg: #66acff;
+      --btn-fg: #04101f;
+      color-scheme: dark;
+    }
+
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      z-index: 60;
+      background: var(--bg);
+    }
+
+    img { display: block; max-width: 100%; }
+
+    a { color: var(--brand); }
+
+    .wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin-inline: auto;
+      padding-left: max(20px, env(safe-area-inset-left, 0px));
+      padding-right: max(20px, env(safe-area-inset-right, 0px));
+    }
+
+    .skip {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      z-index: 100;
+      background: var(--surface);
+      color: var(--ink);
+      padding: 12px 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .skip:focus { left: 16px; top: 16px; }
+
+    :where(a, button, summary):focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.19em;
+      text-transform: uppercase;
+      color: var(--brand);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      color: var(--ink);
+      text-wrap: balance;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 3.4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.03;
+      letter-spacing: -0.035em;
+    }
+
+    .lede,
+    .section-head p,
+    .about-copy p { color: var(--ink-soft); }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 50;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 28px;
+      padding-block: 14px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: inherit;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      line-height: 1.08;
+    }
+
+    .brand-text b {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+
+    .brand-text span {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(14px, 2.4vw, 26px);
+      margin-left: auto;
+    }
+
+    .nav a {
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      padding-block: 4px;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .nav a:hover { color: var(--brand); border-color: var(--brand); }
+
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: border-color 160ms ease, color 160ms ease;
+    }
+
+    .theme-toggle:hover { border-color: var(--brand); color: var(--brand); }
+    .theme-toggle svg { width: 18px; height: 18px; }
+    .theme-toggle .sun { display: none; }
+    .theme-toggle .moon { display: block; }
+
+    :root[data-theme="dark"] .theme-toggle .sun { display: block; }
+    :root[data-theme="dark"] .theme-toggle .moon { display: none; }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .moon { display: none; }
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      overflow: clip;
+      padding-block: clamp(54px, 8vw, 104px) clamp(48px, 7vw, 88px);
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse at 72% 22%, #000 0%, transparent 68%);
+      -webkit-mask-image: radial-gradient(ellipse at 72% 22%, #000 0%, transparent 68%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      width: 620px;
+      height: 620px;
+      right: -170px;
+      top: -180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--bg-glow), transparent 66%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+      gap: clamp(38px, 6vw, 82px);
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.75rem, 5.4vw, 4.9rem);
+      font-weight: 800;
+      line-height: 0.97;
+      letter-spacing: -0.045em;
+      max-width: 12ch;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--brand);
+    }
+
+    .lede {
+      margin: 24px 0 0;
+      max-width: 54ch;
+      font-size: clamp(1.02rem, 1.5vw, 1.18rem);
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+    }
+
+    .btn-primary:hover { background: var(--brand-strong); }
+    :root[data-theme="dark"] .btn-primary:hover { background: #8fc4ff; }
+
+    .btn-ghost {
+      background: var(--surface);
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .btn-ghost:hover { border-color: var(--brand); color: var(--brand); }
+    .btn svg { width: 17px; height: 17px; }
+
+    .hero-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 26px;
+      font-family: var(--font-mono);
+      font-size: 0.69rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+
+    .hero-note svg {
+      flex: 0 0 auto;
+      width: 15px;
+      height: 15px;
+      margin-top: 2px;
+      color: var(--accent);
+    }
+
+    /* Consola de ejemplo */
+    .console-wrap { position: relative; min-width: 0; }
+
+    .console-badge {
+      position: absolute;
+      top: -15px;
+      right: 18px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink-soft);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 30px rgba(7, 20, 38, 0.14);
+    }
+
+    .console-badge i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .console {
+      position: relative;
+      overflow: hidden;
+      padding: 14px;
+      border-radius: 24px;
+      border: 1px solid var(--console-line);
+      background:
+        radial-gradient(120% 100% at 85% 0%, rgba(11, 99, 206, 0.28), transparent 58%),
+        var(--console-bg);
+      color: var(--console-ink);
+      box-shadow: var(--shadow);
+    }
+
+    .console::after {
+      content: "";
+      position: absolute;
+      inset: -30% 0 auto;
+      height: 28%;
+      background: linear-gradient(to bottom, transparent, rgba(59, 213, 230, 0.08), transparent);
+      animation: scan 9s linear infinite;
+      pointer-events: none;
+    }
+
+    .console-top {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 2px 4px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--console-muted);
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--band-accent);
+      box-shadow: 0 0 0 0 rgba(59, 213, 230, 0.45);
+      animation: pulse 2.4s ease-out infinite;
+    }
+
+    .console-time {
+      margin-left: auto;
+      color: var(--console-ink);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.08em;
+    }
+
+    .cam-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .cam {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: 11px;
+      border: 1px solid var(--console-line);
+      background: var(--console-surface);
+    }
+
+    .cam::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(154, 190, 230, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(154, 190, 230, 0.07) 1px, transparent 1px);
+      background-size: 19px 19px;
+      opacity: 0.8;
+    }
+
+    .cam::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 52%, transparent 0 22%, rgba(6, 16, 30, 0.42) 23% 100%),
+        linear-gradient(to top, rgba(6, 16, 30, 0.72), transparent 55%);
+      pointer-events: none;
+    }
+
+    .cam-1 {
+      background:
+        radial-gradient(110% 90% at 18% 12%, rgba(59, 213, 230, 0.30), transparent 55%),
+        radial-gradient(90% 80% at 82% 90%, rgba(11, 99, 206, 0.48), transparent 62%),
+        linear-gradient(145deg, #0d2238, #07111e);
+    }
+    .cam-2 {
+      background:
+        radial-gradient(100% 80% at 80% 15%, rgba(111, 182, 255, 0.28), transparent 55%),
+        radial-gradient(90% 90% at 15% 85%, rgba(11, 99, 206, 0.34), transparent 60%),
+        linear-gradient(155deg, #0a1c30, #07101c);
+    }
+    .cam-3 {
+      background:
+        radial-gradient(90% 90% at 25% 80%, rgba(59, 213, 230, 0.22), transparent 58%),
+        radial-gradient(100% 90% at 85% 20%, rgba(11, 99, 206, 0.40), transparent 62%),
+        linear-gradient(135deg, #0b1d31, #060f1b);
+    }
+    .cam-4 {
+      background:
+        radial-gradient(120% 100% at 50% 110%, rgba(111, 182, 255, 0.26), transparent 58%),
+        radial-gradient(80% 70% at 15% 10%, rgba(59, 213, 230, 0.18), transparent 55%),
+        linear-gradient(150deg, #0c2036, #07121f);
+    }
+
+    .cam-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      width: 15px;
+      height: 15px;
+      color: rgba(234, 243, 255, 0.55);
+    }
+
+    .cam-meta {
+      position: absolute;
+      left: 10px;
+      bottom: 8px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      font-family: var(--font-mono);
+      font-size: 0.53rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(234, 243, 255, 0.82);
+    }
+
+    .cam-meta small {
+      font-size: 0.46rem;
+      color: rgba(150, 171, 196, 0.9);
+    }
+
+    .console-foot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      padding: 12px 4px 2px;
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--console-muted);
+    }
+
+    .console-foot span:last-child {
+      margin-left: auto;
+      color: rgba(234, 243, 255, 0.46);
+    }
+
+    /* Sections */
+    .section { padding-block: clamp(64px, 8vw, 104px); }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 18px 48px;
+      align-items: end;
+      margin-bottom: clamp(30px, 4vw, 48px);
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 58ch;
+      font-size: 1.02rem;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .service {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      transition: border-color 180ms ease, transform 180ms ease;
+    }
+
+    .service:hover { border-color: var(--brand); transform: translateY(-3px); }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface-2);
+      color: var(--brand);
+    }
+
+    .service-icon svg { width: 23px; height: 23px; }
+
+    .service h3 {
+      font-size: 1.22rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .service p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.65;
+    }
+
+    .service-foot {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .service-foot i {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* Banda de apps */
+    .band {
+      position: relative;
+      overflow: hidden;
+      background: var(--band-bg);
+      color: var(--band-fg);
+      padding-block: clamp(68px, 9vw, 112px);
+    }
+
+    .band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(60% 90% at 82% 0%, rgba(11, 99, 206, 0.34), transparent 60%),
+        radial-gradient(50% 70% at 8% 100%, rgba(59, 213, 230, 0.10), transparent 60%);
+      pointer-events: none;
+    }
+
+    .band::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(154, 190, 230, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(154, 190, 230, 0.055) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(ellipse at 70% 10%, #000 0%, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse at 70% 10%, #000 0%, transparent 72%);
+      pointer-events: none;
+    }
+
+    .band .wrap { position: relative; z-index: 1; }
+
+    .band-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 20px 56px;
+      align-items: end;
+      margin-bottom: clamp(30px, 4vw, 48px);
+    }
+
+    .band .eyebrow { color: var(--band-accent); }
+
+    .band h2 { color: var(--band-fg); }
+
+    .band-lede {
+      margin: 0;
+      max-width: 58ch;
+      color: var(--band-muted);
+      font-size: 1.02rem;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .app-card {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: clamp(22px, 3vw, 32px);
+      border: 1px solid var(--band-line);
+      border-radius: 22px;
+      background: var(--band-card);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .app-card.premium {
+      border-color: rgba(111, 182, 255, 0.36);
+      background:
+        radial-gradient(120% 130% at 100% 0%, rgba(11, 99, 206, 0.28), transparent 52%),
+        var(--band-card);
+    }
+
+    .app-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .app-head img {
+      width: 62px;
+      height: 62px;
+      border-radius: 15px;
+      border: 1px solid var(--band-line);
+      background: #fff;
+    }
+
+    .app-title {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .app-title h3 {
+      color: var(--band-fg);
+      font-size: 1.42rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .badge {
+      align-self: flex-start;
+      padding: 3px 9px;
+      border: 1px solid rgba(59, 213, 230, 0.35);
+      border-radius: 999px;
+      background: rgba(59, 213, 230, 0.08);
+      color: var(--band-accent);
+      font-family: var(--font-mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .app-card.premium .badge {
+      border-color: rgba(111, 182, 255, 0.55);
+      background: rgba(111, 182, 255, 0.12);
+      color: #a9d1ff;
+    }
+
+    .app-desc {
+      margin: 0;
+      color: var(--band-muted);
+      font-size: 0.96rem;
+      line-height: 1.65;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px 18px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      min-width: 0;
+      color: var(--band-fg);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .features svg {
+      flex: 0 0 auto;
+      width: 15px;
+      height: 15px;
+      margin-top: 2px;
+      color: var(--band-accent);
+    }
+
+    .app-foot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      padding-top: 17px;
+      border-top: 1px solid var(--band-line);
+      margin-top: auto;
+      font-family: var(--font-mono);
+      font-size: 0.59rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--band-muted);
+    }
+
+    .app-foot strong {
+      color: var(--band-fg);
+      font-weight: 500;
+    }
+
+    .app-foot span:last-child { margin-left: auto; }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 30px;
+      align-items: center;
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid var(--band-line);
+      color: var(--band-muted);
+      font-size: 0.86rem;
+    }
+
+    .trust-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .trust-row svg {
+      width: 16px;
+      height: 16px;
+      color: var(--band-accent);
+    }
+
+    /* Empresa */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: clamp(28px, 5vw, 64px);
+      align-items: center;
+    }
+
+    .about-copy h2 { max-width: 15ch; }
+
+    .about-copy p {
+      margin: 18px 0 0;
+      max-width: 60ch;
+      font-size: 1rem;
+      line-height: 1.72;
+    }
+
+    .about-list {
+      display: grid;
+      gap: 10px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .about-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--ink-soft);
+      font-size: 0.94rem;
+    }
+
+    .about-list svg {
+      flex: 0 0 auto;
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      color: var(--brand);
+    }
+
+    .about-card {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(26px, 4vw, 38px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        radial-gradient(120% 100% at 100% 0%, var(--bg-glow), transparent 58%),
+        var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .about-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(ellipse at 20% 100%, #000, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at 20% 100%, #000, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-card > * { position: relative; }
+
+    .about-card img {
+      width: 92px;
+      height: 92px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      margin-bottom: 22px;
+    }
+
+    .about-tag {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.4vw, 1.95rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .about-small {
+      margin: 16px 0 0;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid var(--line);
+      padding-block: 32px;
+      background: var(--surface-2);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 18px 28px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .footer-brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .footer-brand p {
+      margin: 0;
+      font-size: 0.86rem;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+
+    .footer-brand strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .footer-meta {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .footer-meta a { color: var(--muted); text-decoration: none; }
+    .footer-meta a:hover { color: var(--brand); }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(59, 213, 230, 0.42); }
+      70% { box-shadow: 0 0 0 7px rgba(59, 213, 230, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(59, 213, 230, 0); }
+    }
+
+    @keyframes scan {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(520%); }
+    }
+
+    @media (max-width: 940px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero h1 { max-width: 15ch; }
+      .console-wrap { max-width: 560px; }
+      .section-head,
+      .band-head { grid-template-columns: 1fr; align-items: start; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-copy h2 { max-width: 18ch; }
+      .about-card { max-width: 560px; }
+    }
+
+    @media (max-width: 820px) {
+      .service-grid { grid-template-columns: 1fr; }
+      .app-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .header-inner { gap: 10px 16px; }
+      .nav {
+        order: 3;
+        width: 100%;
+        margin-left: 0;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 11px;
+        border-top: 1px solid var(--line);
+      }
+      .nav a { font-size: 0.84rem; }
+      .theme-toggle { margin-left: auto; }
+      .features { grid-template-columns: 1fr; }
+      .footer-meta { margin-left: 0; text-align: left; }
+    }
+
+    @media (max-width: 430px) {
+      .brand-text b { font-size: 0.9rem; }
+      .brand-text span { font-size: 0.56rem; letter-spacing: 0.13em; }
+      .hero h1 { font-size: clamp(2.45rem, 11.5vw, 3.2rem); }
+      .console-badge { right: 10px; font-size: 0.55rem; }
+      .console-foot span:last-child { margin-left: 0; width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#inicio" aria-label="Soporte Tecnológico Hernández, inicio">
+        <img src="assets/sth-emblem.png" alt="" width="44" height="44">
+        <span class="brand-text">
+          <b>Soporte Tecnológico Hernández</b>
+          <span>Videovigilancia · Redes · Equipos</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#servicios">Servicios</a>
+        <a href="#apps">STH Cam</a>
+        <a href="#empresa">La empresa</a>
+      </nav>
+
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.4 14.2A8.2 8.2 0 0 1 9.8 3.6 8.2 8.2 0 1 0 20.4 14.2Z"/>
+        </svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.6"/>
+          <path d="M12 2.6v2.1M12 19.3v2.1M2.6 12h2.1M19.3 12h2.1M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M18.7 5.3l-1.5 1.5M6.8 17.2l-1.5 1.5"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Soporte Tecnológico Hernández</p>
+          <h1>Tu tecnología, en <em>buenas manos.</em></h1>
+          <p class="lede">
+            Videovigilancia, redes de datos y equipos informáticos para tu casa o tu
+            negocio. Y STH Cam, nuestra propia app para ver tus cámaras desde Android TV,
+            Google TV, TV box o móvil.
+          </p>
+
+          <div class="actions">
+            <a class="btn btn-primary" href="#apps">
+              Conoce STH Cam
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 12h15M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+            <a class="btn btn-ghost" href="#servicios">Ver servicios</a>
+          </div>
+
+          <p class="hero-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m4 12 5 5 11-11"/>
+            </svg>
+            Instalación, configuración y soporte de sistemas de seguridad y redes.
+          </p>
+        </div>
+
+        <div class="console-wrap">
+          <span class="console-badge"><i></i> Conexión directa</span>
+          <div class="console" role="img" aria-label="Vista de ejemplo de la app STH Cam con cuatro cámaras en cuadrícula">
+            <div class="console-top">
+              <span class="live-dot"></span>
+              <span>En vivo</span>
+              <span class="console-time">06:34</span>
+            </div>
+
+            <div class="cam-grid">
+              <div class="cam cam-1">
+                <svg class="cam-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="7" width="13" height="9" rx="2"/>
+                  <circle cx="9.5" cy="11.5" r="2.4"/>
+                  <path d="m16 10 5-3v10l-5-3"/>
+                </svg>
+                <span class="cam-meta">Entrada <small>CAM 01</small></span>
+              </div>
+              <div class="cam cam-2">
+                <svg class="cam-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="7" width="13" height="9" rx="2"/>
+                  <circle cx="9.5" cy="11.5" r="2.4"/>
+                  <path d="m16 10 5-3v10l-5-3"/>
+                </svg>
+                <span class="cam-meta">Oficina <small>CAM 02</small></span>
+              </div>
+              <div class="cam cam-3">
+                <svg class="cam-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="7" width="13" height="9" rx="2"/>
+                  <circle cx="9.5" cy="11.5" r="2.4"/>
+                  <path d="m16 10 5-3v10l-5-3"/>
+                </svg>
+                <span class="cam-meta">Bodega <small>CAM 03</small></span>
+              </div>
+              <div class="cam cam-4">
+                <svg class="cam-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="7" width="13" height="9" rx="2"/>
+                  <circle cx="9.5" cy="11.5" r="2.4"/>
+                  <path d="m16 10 5-3v10l-5-3"/>
+                </svg>
+                <span class="cam-meta">Planta alta <small>CAM 04</small></span>
+              </div>
+            </div>
+
+            <div class="console-foot">
+              <span>4 cámaras · NVR principal</span>
+              <span>Vista de ejemplo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicios">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Servicios</p>
+            <h2>Instalamos, conectamos y cuidamos tu tecnología.</h2>
+          </div>
+          <p>
+            Desde una cámara en casa hasta la red completa de una oficina. Nos ocupamos
+            del proyecto, la instalación y el mantenimiento para que todo funcione junto.
+          </p>
+        </div>
+
+        <div class="service-grid">
+          <article class="service">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2.8" y="7" width="12.4" height="8.8" rx="2"/>
+                <circle cx="9" cy="11.4" r="2.3"/>
+                <path d="m15.2 10 5.6-3.2v10.4L15.2 14M6 19.4h7"/>
+              </svg>
+            </div>
+            <h3>Videovigilancia</h3>
+            <p>
+              Cámaras IP, DVR y NVR. Proyecto, instalación, configuración remota y
+              mantenimiento para casa, comercio o industria.
+            </p>
+            <div class="service-foot"><i></i> IP · DVR · NVR</div>
+          </article>
+
+          <article class="service">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="5" r="2.3"/>
+                <circle cx="5" cy="18.5" r="2.3"/>
+                <circle cx="19" cy="18.5" r="2.3"/>
+                <path d="M12 7.3v4.1M12 11.4 5.8 16.6M12 11.4l6.2 5.2"/>
+              </svg>
+            </div>
+            <h3>Redes de datos</h3>
+            <p>
+              Cableado estructurado, Wi-Fi profesional, switches y enlaces entre sedes.
+              Una red ordenada, segura y preparada para crecer.
+            </p>
+            <div class="service-foot"><i></i> LAN · Wi-Fi · Enlaces</div>
+          </article>
+
+          <article class="service">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="12.5" rx="2"/>
+                <path d="M9 20.5h6M12 16.5v4"/>
+              </svg>
+            </div>
+            <h3>Equipos informáticos</h3>
+            <p>
+              Venta, montaje, actualización y soporte de ordenadores, servidores y
+              puestos de trabajo. Hardware y software que rinden.
+            </p>
+            <div class="service-foot"><i></i> PC · Servidores · Soporte</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="apps">
+      <div class="wrap">
+        <div class="band-head">
+          <div>
+            <p class="eyebrow">Nuestras apps</p>
+            <h2>STH Cam: tus cámaras, en cualquier pantalla.</h2>
+          </div>
+          <p class="band-lede">
+            Una app pensada para Android TV, Google TV, TV box y móvil. Sin cuentas
+            propias ni nube intermedia: la app se conecta directamente a tus equipos y
+            el vídeo va de tus cámaras a tu pantalla.
+          </p>
+        </div>
+
+        <div class="app-grid">
+          <article class="app-card">
+            <div class="app-head">
+              <img src="assets/sthcam-icon.png" alt="Icono de STH Cam" width="62" height="62">
+              <div class="app-title">
+                <h3>STH Cam</h3>
+                <span class="badge">Gratis</span>
+              </div>
+            </div>
+
+            <p class="app-desc">
+              Vigila tus cámaras IP, DVR y NVR desde la televisión o el móvil, con una
+              interfaz pensada para mando, teclado y pantalla táctil.
+            </p>
+
+            <ul class="features">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Descubrimiento ONVIF en tu red
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                RTSP con VLC en TCP o UDP
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Hikvision y Dahua con nombres de canal
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Cuadrícula de hasta 16 cámaras
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Grabaciones por intervalos
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Interfaz para mando y táctil
+              </li>
+            </ul>
+
+            <div class="app-foot">
+              <span><strong>Android TV</strong> · Google TV · TV box · móvil</span>
+              <span>1 grupo · 2 cámaras</span>
+            </div>
+          </article>
+
+          <article class="app-card premium">
+            <div class="app-head">
+              <img src="assets/sthcam-icon.png" alt="Icono de STH Cam Premium" width="62" height="62">
+              <div class="app-title">
+                <h3>STH Cam Premium</h3>
+                <span class="badge">Premium</span>
+              </div>
+            </div>
+
+            <p class="app-desc">
+              La experiencia completa para quien quiere todo el control: sin anuncios,
+              sin límites de grupos ni de cámaras y con las herramientas de vigilancia
+              desbloqueadas.
+            </p>
+
+            <ul class="features">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Grupos y cámaras ilimitados
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Sin publicidad
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Grabaciones por intervalos
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                PTZ básico
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Capturas de pantalla
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+                Zoom y paneo
+              </li>
+            </ul>
+
+            <div class="app-foot">
+              <span><strong>Android TV</strong> · Google TV · TV box · móvil</span>
+              <span>Compra única</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="trust-row">
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5.5c0 4.4 2.9 8.2 7 9.5 4.1-1.3 7-5.1 7-9.5V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            Conexión directa a tus equipos
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z"/><path d="M3 12h18M12 3c2.5 2.4 3.8 5.4 3.8 9S14.5 18.6 12 21c-2.5-2.4-3.8-5.4-3.8-9S9.5 5.4 12 3Z"/></svg>
+            12 idiomas
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            Móvil, tablet y Android TV
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="empresa">
+      <div class="wrap about-grid">
+        <div class="about-copy">
+          <p class="eyebrow">La empresa</p>
+          <h2>Tecnología que funciona. Gente que responde.</h2>
+          <p>
+            Soporte Tecnológico Hernández integra videovigilancia, redes de datos y
+            equipos informáticos. Trabajamos con instalaciones nuevas y con sistemas que
+            ya están en marcha: los revisamos, los ordenamos y los dejamos funcionando
+            como deben.
+          </p>
+          <p>
+            Nuestro trabajo no termina en la instalación. Configuramos el acceso remoto,
+            organizamos las cámaras y te acompañamos cuando algo cambia.
+          </p>
+
+          <ul class="about-list">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+              Instalación y puesta en marcha
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+              Configuración y mantenimiento
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5 11-11"/></svg>
+              Soporte para casa y negocio
+            </li>
+          </ul>
+        </div>
+
+        <aside class="about-card" aria-label="Soporte Tecnológico Hernández">
+          <img src="assets/sth-emblem.png" alt="Emblema de Soporte Tecnológico Hernández" width="92" height="92">
+          <p class="about-tag">Tu tecnología, en buenas manos.</p>
+          <p class="about-small">Videovigilancia · Redes de datos · Equipos informáticos</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <img src="assets/sth-emblem.png" alt="" width="34" height="34">
+        <p>
+          <strong>Soporte Tecnológico Hernández</strong>
+          Tu tecnología, en buenas manos.
+        </p>
+      </div>
+      <p class="footer-meta">
+        © 2026 Soporte Tecnológico Hernández<br>
+        <a href="#inicio">Volver arriba</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var button = document.getElementById("theme-toggle");
+
+      function isDark() {
+        if (root.dataset.theme === "dark") return true;
+        if (root.dataset.theme === "light") return false;
+        return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+
+      if (button) {
+        button.addEventListener("click", function () {
+          var next = isDark() ? "light" : "dark";
+          root.dataset.theme = next;
+          try { localStorage.setItem("sth-theme", next); } catch (e) { /* sin almacenamiento */ }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
